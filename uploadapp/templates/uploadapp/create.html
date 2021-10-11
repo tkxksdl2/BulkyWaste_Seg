@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% load bootstrap4 %}
+{% load static %}
+{% block content %}
+
+    <div class="mw-500 m-auto">
+        <div class="m-5 text-center">
+            <h4>대형 폐기물 배출</h4>
+        </div>
+        <div>
+            <form action="{% url 'uploadapp:create' %}"
+                  enctype="multipart/form-data"
+                  method="post">
+                {% csrf_token %}
+                {% bootstrap_form form layout='horizontal' %}
+                <div class="m-5 text-center">
+                    <input type="submit"
+                       class="btn btn-info rounded-pill px-5" value="확인하기">
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="{% static 'js/geolocation.js' %}"></script>
+{% endblock %}

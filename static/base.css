@@ -1,0 +1,10 @@
+.mw-500 {
+    max-width: 500px;
+    padding: 1rem 1.5rem;
+}
+
+.profile_image {
+    height: 20rem;
+    width: 20rem;
+    object-fit: cover;
+}

@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+
+    <div class="text-center mw-500 m-auto">
+        <div class="m-5">
+                <p>폐기일자  {{ target_upload.created_at }}</p>
+                <h2 class="NNS_B">
+                    이름 {{ target_upload.name }}
+                </h2>
+                <h5>전화번호 {{ target_upload.phone_number }}</h5>
+                <img src="{{ target_upload.image.url }}"
+                     class="profile_image"
+                     alt="upload image">
+        </div>
+    </div>
+
+{% endblock %}
