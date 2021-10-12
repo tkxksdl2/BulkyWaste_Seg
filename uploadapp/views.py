@@ -109,7 +109,7 @@ class GeneratePDF2(View, FormMixin):
             client = pdfcrowd.HtmlToPdfClient('aksghk4671', 'd797f6ec6fb1ebc063efec88819a76ba')
 
             # run the conversion and write the result into the output stream
-            client.convertStringToFile(html, f'media/savepdf/{qs.pk}.pdf')
+            client.convertStringToFile(html, f'media/upload/{qs.pk}.pdf')
 
         except pdfcrowd.Error as why:
             # report the error
@@ -119,7 +119,7 @@ class GeneratePDF2(View, FormMixin):
             raise
 
         try:
-            return FileResponse(open(f'media/savepdf/{qs.pk}.pdf', 'rb'), content_type='application/pdf')
+            return FileResponse(open(f'media/upload/{qs.pk}.pdf', 'rb'), content_type='application/pdf')
         except FileNotFoundError:
             raise Http404()
 
