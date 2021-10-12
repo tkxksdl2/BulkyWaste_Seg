@@ -1,5 +1,7 @@
 
 # Create your views here.
+import os
+
 from django.http import HttpResponse, FileResponse, Http404
 from django.template.loader import get_template
 from django.urls import reverse_lazy, reverse
@@ -9,7 +11,7 @@ from django.views.generic.edit import FormMixin
 
 from uploadapp.forms import UploadCreationForm
 from uploadapp.models import Upload
-
+modulePath = os.path.dirname(__file__)
 import googlemaps
 
 
@@ -34,7 +36,7 @@ class UploadCreateView(CreateView):
         temp_upload.save()
 
         temp_upload = form.save(commit=False)
-        path = 'C:\\Users\\oooh3\\PycharmProjects\\djangoProject1\\media\\' + str(temp_upload.image)
+        path = 'media/' + str(temp_upload.image)
         img = Image.open(path)
         result = trash_pred(img)
 
@@ -111,7 +113,7 @@ class GeneratePDF2(View, FormMixin):
 
 def trash_pred(img):
     warnings.filterwarnings(action='ignore')
-    new_model = tf.keras.models.load_model('C:\\Users\\oooh3\\PycharmProjects\\djangoProject1\\my_model')
+    new_model = tf.keras.models.load_model('my_model')
     label_filter = ['침대', '밥상', '서랍장', '수납장', '의자', '선풍기', '냉장고', '장농', '책상', '소파']
 
     images = []
