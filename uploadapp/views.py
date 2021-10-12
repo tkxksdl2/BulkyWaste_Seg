@@ -1,6 +1,4 @@
-
 # Create your views here.
-import os
 
 from django.http import HttpResponse, FileResponse, Http404
 from django.template.loader import get_template
@@ -11,7 +9,7 @@ from django.views.generic.edit import FormMixin
 
 from uploadapp.forms import UploadCreationForm
 from uploadapp.models import Upload
-modulePath = os.path.dirname(__file__)
+
 import googlemaps
 
 
@@ -21,7 +19,6 @@ from numpy import argmax
 from tensorflow.keras.models import load_model
 from PIL import Image
 import warnings
-
 
 gmaps = googlemaps.Client(key='AIzaSyCCpe1QXfMoezcFO-eCX4Su_XDRwFuu3nQ')
 
@@ -59,6 +56,22 @@ class UploadUpdateView(UpdateView):
     form_class = UploadCreationForm
     context_object_name = 'target_upload'
     template_name = 'uploadapp/update.html'
+
+    def form_valid(self, form):
+        temp_upload = form.save(commit=False)
+        temp_upload.save()
+
+        temp_upload = form.save(commit=False)
+        path = 'media/' + str(temp_upload.image)
+        img = Image.open(path)
+        result = trash_pred(img)
+
+        temp_upload.price = separ_price(result)
+        temp_upload.label = result
+
+
+        temp_upload.save()
+        return super().form_valid(form)
 
     def get_success_url(self):
         return reverse('uploadapp:update', kwargs={'pk': self.object.pk})
@@ -113,12 +126,12 @@ class GeneratePDF2(View, FormMixin):
 
 def trash_pred(img):
     warnings.filterwarnings(action='ignore')
-    new_model = tf.keras.models.load_model('my_model')
+    new_model = tf.keras.models.load_model('my_model/keras_64%.h5')
     label_filter = ['침대', '밥상', '서랍장', '수납장', '의자', '선풍기', '냉장고', '장농', '책상', '소파']
 
     images = []
 
-    img_resized = img.resize([224, 224])
+    img_resized = img.resize([112, 112])
     pixels = np.array(img_resized)
     images.append(pixels)
     X = np.asarray(images, dtype=np.float32)
