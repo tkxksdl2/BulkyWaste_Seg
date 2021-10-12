@@ -1,6 +1,6 @@
 
 # Create your views here.
-from django.http import HttpResponse
+from django.http import HttpResponse, FileResponse, Http404
 from django.template.loader import get_template
 from django.urls import reverse_lazy, reverse
 from django.views import View
@@ -68,3 +68,39 @@ class GeneratePDF(View, FormMixin):
         if pdf:
             return HttpResponse(pdf, content_type='application/pdf')  # TILL HERE HTML TO PDF
         return HttpResponse("Not found")
+
+
+import pdfcrowd
+import sys
+
+
+class GeneratePDF2(View, FormMixin):
+
+    model = Upload
+    context_object_name = 'qs'
+    success_url = reverse_lazy('uploadapp:create')
+
+    def get(self, request, *args, **kwargs):
+        template = get_template('uploadapp/detail.html')
+        qs = Upload.objects.get(pk=kwargs['pk'])
+        context = {'qs': qs}
+        html = template.render(context)
+
+        try:
+            # create the API client instance
+            client = pdfcrowd.HtmlToPdfClient('aksghk4671', 'd797f6ec6fb1ebc063efec88819a76ba')
+
+            # run the conversion and write the result into the output stream
+            client.convertStringToFile(html, f'media/savepdf/{qs.pk}.pdf')
+
+        except pdfcrowd.Error as why:
+            # report the error
+            sys.stderr.write('Pdfcrowd Error: {}\n'.format(why))
+
+            # rethrow or handle the exception
+            raise
+
+        try:
+            return FileResponse(open(f'media/savepdf/{qs.pk}.pdf', 'rb'), content_type='application/pdf')
+        except FileNotFoundError:
+            raise Http404()
