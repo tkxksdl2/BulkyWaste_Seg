@@ -12,7 +12,6 @@ from uploadapp.models import Upload
 
 import googlemaps
 
-from uploadapp.utils import render_to_pdf
 
 import tensorflow as tf
 import numpy as np
@@ -73,24 +72,6 @@ class UploadDetailView(DetailView):
     model = Upload
     context_object_name = 'target_upload'
     template_name = 'uploadapp/detail.html'
-
-class GeneratePDF(View):
-
-    model = Upload
-    context_object_name = 'target_upload'
-    success_url = reverse_lazy('uploadapp:create')
-
-    def get(self, request, *args, **kwargs):
-        template = get_template('uploadapp/detail.html')
-        qs = Upload.objects.get(pk=kwargs['pk'])
-        context = {'qs': qs}
-        print(context)
-        html = template.render(context)
-        pdf = render_to_pdf('uploadapp/detail.html', context)
-        if pdf:
-            return HttpResponse(pdf, content_type='application/pdf')  # TILL HERE HTML TO PDF
-        return HttpResponse("Not found")
-
 
 import pdfcrowd
 import sys
