@@ -18,7 +18,11 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
 
+from uploadapp.views import UploadCreateView
+
 urlpatterns = [
+    path('', UploadCreateView.as_view()),
+
 
     path('admin/', admin.site.urls),
     path('uploads/', include('uploadapp.urls')),

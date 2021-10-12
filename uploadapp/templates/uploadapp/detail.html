@@ -1,16 +1,155 @@
 {% extends 'base.html' %}
 
 {% block content %}
+<style>
 
+.Thead>tbody>tr:first-child td, .Thead>tbody>tr:first-child th {
+    border-top: 2px solid #848cd6;
+}
 
-    <div class="text-center mw-500 m-auto">
-        <div class="m-5">
-                <p>폐기일자  {{ qs.created_at }}</p>
-                <h2 class="NNS_B">
-                    이름 {{ qs.name }}
-                </h2>
-                <h5>전화번호 {{ qs.phone_number }}</h5>
-        </div>
+.tbl tbody th {
+    background: #f2f6f9;
+    font-weight: normal;
+}
+
+.tbl td, .tbl th {
+    padding: 12px 10px;
+    border: 1px solid #e2e2e4;
+    line-height: 18px;
+    vertical-align: middle;
+    box-sizing: border-box;
+    font-size: 1rem;
+    word-break: break-all;
+}
+
+.tbl th {
+    text-align: center;
+    font-weight: 600;
+}
+
+.w25 {
+    width: 25% !important;
+}
+
+.w35{
+    width: 35% !important;
+}
+
+col {
+    display: table-column;
+}
+
+table {
+    border-collapse: collapse;
+    font-size: 100%;
+}
+
+.mT10 {
+    margin-top: 10px !important;
+}
+
+.mT30 {
+    margin-top: 30px !important;
+}
+
+.table>:not(:last-child)>:last-child>* {
+    border-bottom-color: #e2e2e4;
+}
+
+.mw-600 {
+    max-width: 600px;
+    padding: 1rem 1.5rem;
+}
+
+.mTB50 {
+    margin-top: 50px !important;
+    margin-bottom: 50px; !important;
+}
+
+.profile_image{
+    height: 200px;
+    width: 200px;
+}
+</style>
+
+    <div class="text-center mw-600 m-auto">
+        <h2 class="mTB50">
+            대형 폐기물 처리 신청서
+        </h2>
+        <table class="table tbl Thead mT10">
+            <colgroup>
+                <col class="w25">
+                <col>
+            </colgroup>
+            <tbody>
+                <tr>
+                    <th scope="row">
+                        이름
+                    </th>
+                    <td>
+                        {{ qs.name }}
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row">
+                        연락처
+                    </th>
+                    <td>
+                        {{ qs.phone_number }}
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row">
+                        신청일자
+                    </th>
+                    <td>
+                        {{ qs.created_at }}
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row">
+                        배출주소
+                    </th>
+                    <td>
+                        {{ qs.location }}
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p class="mT10">※ 수거를 위해 집안(실내 및 대문 안)으로 들어가지 않습니다.</p>
+        <table class="table tbl Thead mT30">
+            <colgroup>
+                <col class="w35">
+                <col>
+            </colgroup>
+            <tbody>
+                <tr>
+                    <td rowspan="2" width="200px" height="200px">
+                        <img src="{{ qs.image.url }}"
+                             class="profile_image"
+                             alt="image file">
+                    </td>
+                    <th scope="row" height="60px">
+                        폐기물명
+                    </th>
+                </tr>
+                <tr>
+                    <td>
+                        {{ qs.label }}
+                    </td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <th scope="row">
+                        수수료
+                    </th>
+                    <td colspan="5">
+                        {{ qs.price }} 원
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
     </div>
 
 {% endblock %}

@@ -21,20 +21,69 @@
             </form>
         </div>
          <div class="container text-center mw-500 m-auto">
-             <div class="row">
-                 <h2 class="col-md-3 bg-light p-1 border NNS_B">이름</h2>
-                 <h2 class="col-md-9 offset-md-0 bg-light p-1 border NNS_B">{{ target_upload.name }}</h2>
-             </div>
-             <div>
-                 <h5>전화번호 {{ target_upload.phone_number }}</h5>
-                 <p>폐기일자  {{ target_upload.created_at }}</p>
-                 <h5>폐기위치 {{ target_upload.location }}</h5>
-                 <img src="{{ target_upload.image.url }}"
-                      class="profile_image"
-                      alt="upload image">
-                 <h5>종류 {{ target_upload.label }}</h5>
-                 <h5>수수료 {{ target_upload.price }}</h5>
-             </div>
+             <table class="table tbl Thead mT10">
+                <colgroup>
+                    <col class="">
+                    <col>
+                </colgroup>
+                <tbody>
+                    <tr>
+                        <th scope="row">
+                            이름
+                        </th>
+                        <td>
+                            {{ target_upload.name }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row">
+                            연락처
+                        </th>
+                        <td>
+                            {{ target_upload.phone_number }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row">
+                            신청일자
+                        </th>
+                        <td>
+                            {{ target_upload.created_at }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row">
+                            배출주소
+                        </th>
+                        <td>
+                            {{ target_upload.location }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <img src="{{ target_upload.image.url }}"
+                                 class="profile_image"
+                                 alt="upload image">
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row">
+                            종류
+                        </th>
+                        <td>
+                            {{ target_upload.label }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row">
+                            수수료
+                        </th>
+                        <td>
+                            {{ target_upload.price }} 원
+                        </td>
+                    </tr>
+                </tbody>
+             </table>
          </div>
         <div class="text-center">
             <a href="{% url 'uploadapp:pdf2' pk=target_upload.pk %}"

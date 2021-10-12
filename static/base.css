@@ -8,3 +8,56 @@
     width: 20rem;
     object-fit: cover;
 }
+
+.Thead>tbody>tr:first-child td, .Thead>tbody>tr:first-child th {
+    border-top: 2px solid #848cd6;
+}
+
+.tbl tbody th {
+    background: #f2f6f9;
+    font-weight: normal;
+}
+
+.tbl td, .tbl th {
+    padding: 12px 10px;
+    border: 1px solid #e2e2e4;
+    line-height: 18px;
+    vertical-align: middle;
+    box-sizing: border-box;
+    font-size: 1rem;
+    word-break: break-all;
+}
+
+.tbl th {
+    text-align: center;
+    font-weight: 600;
+}
+
+.w25 {
+    width: 25% !important;
+}
+
+.w35{
+    width: 35% !important;
+}
+
+col {
+    display: table-column;
+}
+
+table {
+    border-collapse: collapse;
+    font-size: 100%;
+}
+
+.mT10 {
+    margin-top: 10px !important;
+}
+
+.mT30 {
+    margin-top: 30px !important;
+}
+
+.table>:not(:last-child)>:last-child>* {
+    border-bottom-color: #e2e2e4;
+}
