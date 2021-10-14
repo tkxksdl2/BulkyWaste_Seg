@@ -1,4 +1,5 @@
 # Create your views here.
+import os
 
 from django.http import HttpResponse, FileResponse, Http404
 from django.template.loader import get_template
@@ -101,9 +102,11 @@ class GeneratePDF2(View, FormMixin):
         qs = Upload.objects.get(pk=kwargs['pk'])
 
         path = 'media/' + str(qs.image)
+        filename = os.path.splitext('./test.zip')[1]
+
         with open(path, 'rb') as img:
             base64_string = base64.b64encode(img.read())
-            tmp = "data:image/jpg;base64," + str(base64_string)[2:-1]
+            tmp = "data:image/"+filename[1:]+";base64," + str(base64_string)[2:-1]
         context = {'qs': qs, 'tmp': tmp}
         html = template.render(context)
 
