@@ -12,13 +12,14 @@ from uploadapp.models import Upload
 
 import googlemaps
 
-
 import tensorflow as tf
 import numpy as np
-from numpy import argmax
-from tensorflow.keras.models import load_model
 from PIL import Image
 import warnings
+
+import pdfcrowd
+import sys
+import base64
 
 gmaps = googlemaps.Client(key='AIzaSyCCpe1QXfMoezcFO-eCX4Su_XDRwFuu3nQ')
 
@@ -88,9 +89,6 @@ class UploadDetailView(DetailView):
     context_object_name = 'target_upload'
     template_name = 'uploadapp/detail.html'
 
-import pdfcrowd
-import sys
-
 
 class GeneratePDF2(View, FormMixin):
 
@@ -101,12 +99,17 @@ class GeneratePDF2(View, FormMixin):
     def get(self, request, *args, **kwargs):
         template = get_template('uploadapp/detail.html')
         qs = Upload.objects.get(pk=kwargs['pk'])
-        context = {'qs': qs}
+
+        path = 'media/' + str(qs.image)
+        with open(path, 'rb') as img:
+            base64_string = base64.b64encode(img.read())
+            tmp = "data:image/jpg;base64," + str(base64_string)[2:-1]
+        context = {'qs': qs, 'tmp': tmp}
         html = template.render(context)
 
         try:
             # create the API client instance
-            client = pdfcrowd.HtmlToPdfClient('aksghk4671', 'd797f6ec6fb1ebc063efec88819a76ba')
+            client = pdfcrowd.HtmlToPdfClient('aksghk1', 'a44f9b773c47f1d593af0d3d384ca957')
 
             # run the conversion and write the result into the output stream
             client.convertStringToFile(html, f'media/upload/{qs.pk}.pdf')
@@ -138,6 +141,7 @@ def trash_pred(img):
     xhat = X / 255.0
     yhat = new_model.predict(xhat)
     return label_filter[np.argmax(yhat)]
+
 
 def separ_price(result):
     label_filter = ['침대', '밥상', '서랍장', '수납장', '의자', '선풍기', '냉장고', '장농', '책상', '소파']

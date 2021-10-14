@@ -69,6 +69,7 @@ table {
 .profile_image{
     height: 200px;
     width: 200px;
+    object-fit: scale-down;
 }
 </style>
 
@@ -124,9 +125,10 @@ table {
             </colgroup>
             <tbody>
                 <tr>
-                    <td rowspan="2" width="200px" height="200px">
-                        <img src="{{ qs.image.url }}"
+                    <td rowspan="2">
+                        <img src="{{ tmp }}"
                              class="profile_image"
+                             id="img"
                              alt="image file">
                     </td>
                     <th scope="row" height="60px">
