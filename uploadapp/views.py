@@ -11,6 +11,8 @@ from django.views.generic.edit import FormMixin
 from uploadapp.forms import UploadCreationForm
 from uploadapp.models import Upload
 
+import tensorflow as tf
+
 import googlemaps
 
 import tensorflow as tf
@@ -43,8 +45,8 @@ class UploadCreateView(CreateView):
         temp_upload.label = result
 
 
-        g = gmaps.reverse_geocode((form.data.get('location')), language='ko')
-        form.instance.location = g[0]['formatted_address']
+        # g = gmaps.reverse_geocode((form.data.get('location')), language='ko')
+        form.instance.location = '서울시 관악구' #g[0]['formatted_address']
 
         temp_upload.save()
         return super().form_valid(form)
